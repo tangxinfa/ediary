@@ -1,0 +1,33 @@
+{{> header }}
+
+    <div class="container container-fluid" id="page">
+      <div class="push-header"></div>
+
+      <div class="article">
+        <header class="article-header">
+          <h1>{{current.title}}</h1>
+      	{{> qrcode }}
+        </header>
+      
+        <div class="article-content">
+          {{{current.body}}}
+        </div>
+        <br />
+        <footer class="article-footer">
+          {{#if current.tags}}
+          {{#each current.tags}}
+          <a class="tag" href="{{tagPageRelativePath this 0}}"><i class="icon-tag icon-white"></i> {{this}}</a>
+          {{/each}}
+          {{/if}}
+          <span class="muted">
+            <i class="icon-time icon-white"></i> <time datetime="{{dateformat current.timestamp "isoDateTime"}}">{{dateformat current.timestamp "yyyy年m月d日h时"}}</time>
+          </span>
+        </footer>
+      </div>
+
+{{> disqus }}
+
+      <div class="push-footer"></div>
+    </div>
+
+{{> footer }}

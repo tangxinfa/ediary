@@ -1,0 +1,32 @@
+{
+    "name": "ediary-build",
+    "version": "0.0.1",
+    "description": "build ediary web pages",
+    "main": "index.js",
+    "scripts": {
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/tangxinfa/ediary.git"
+    },
+    "keywords": [
+        "diary", "blog"
+    ],
+    "author": "tangxinfa",
+    "license": "GPL-3.0",
+    "bugs": {
+        "url": "https://github.com/tangxinfa/ediary/issues"
+    },
+    "homepage": "https://github.com/tangxinfa/ediary#readme",
+    "dependencies": {
+        "yargs": "*",
+        "sprintf-js": "*",
+        "handlebars": "*",
+        "async": "*",
+        "mkdirp": "*",
+        "config": "*",
+        "dateformat": "*",
+        "feed": "*",
+        "tracer": "*"
+    }
+}

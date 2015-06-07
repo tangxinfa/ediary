@@ -1,0 +1,44 @@
+{{> header }}
+
+    <div class="container container-fluid" id="page">
+      <div class="push-header"></div>
+      <div class="row-fluid">
+
+        <div class="span9">
+          <div class="page-header">
+            <i class="icon-folder-open icon-white"></i> {{category}}
+          </div>
+          {{#page articles page}}
+          <article>
+            <header class="article-header">
+              <span class="muted">
+                <i class="icon-time icon-white"></i> <time datetime="{{dateformat (field ../ediary.allArticles this "timestamp") "isoDateTime"}}">{{dateformat (field ../ediary.allArticles this "timestamp") "yyyy年m月d日H时"}}</time>
+              </span>
+	          <h2><a href="{{field ../ediary.allArticles this "url"}}">{{field ../ediary.allArticles this "title"}}</a></h2>
+            </header>
+            <div class="article-content">
+            </div>
+            <footer class="article-footer">
+            </footer>
+          </article>
+          {{/page}}
+          <div class="page-footer">
+            <nav>
+              <ul class="pager">
+                <li class="previous {{#if previous}}{{else}}disabled{{/if}}"><a href="{{previous}}"><span aria-hidden="true">&larr;</span> Newer</a></li>
+                <li class="next {{#if next}}{{else}}disabled{{/if}}"><a href="{{next}}">Older <span aria-hidden="true">&rarr;</span></a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <div id="sidebar" class="span3">
+          <div class="page-header">
+            <i class="icon-tags icon-white"></i> 标签
+          </div>
+          {{> tags}}
+        </div>
+      </div>
+      <div class="push-footer"></div>
+    </div>
+
+{{> footer }}
