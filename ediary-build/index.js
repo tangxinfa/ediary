@@ -269,7 +269,7 @@ function parseEdiaryFile(filename) {
         return e2.timestamp - e1.timestamp;
     });
     ediary.forEach(function (entry) {
-        entry.url = sprintf('/article/%s/%s.html', dateformat(entry.timestamp, 'yyyy/mm/dd'), pathify(entry.title));
+        entry.url = sprintf('/article/%s.html', pathify(entry.title));
         if (! Array.isArray(entry.tags)) {
             entry.tags = [];
         }
@@ -685,7 +685,7 @@ function generateSiteMap(callback) {
 
     var urls = [];
     ediary.allArticles.forEach(function (article) {
-        urls.push(absolutePath(article.url));
+        urls.push({url: absolutePath(article.url), lastmodISO: article.timestamp.toISOString()});
     });
 
     var sitemap = new Sitemap(urls, url.parse(config.site.link).hostname, config.site.cacheTime || (3*60*60));
