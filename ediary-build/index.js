@@ -160,7 +160,6 @@ var argv = yargs
     .option('f', {
         alias : 'file',
         demand: true,
-        default: './ediary.json',
         describe: 'exported ediary data file',
         type: 'string'
     })

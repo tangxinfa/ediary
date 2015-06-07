@@ -28,6 +28,7 @@
 ;;; Commentary:
 
 ;; `ediary-export' Export to ediary file.
+;; `ediary-build' Build web pages from ediary file.
 
 ;;; Code:
 
