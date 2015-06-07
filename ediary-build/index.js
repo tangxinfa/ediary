@@ -1,3 +1,5 @@
+#!/bin/env node
+
 process.env.NODE_CONFIG_DIR = __dirname + '/config';
 
 var yargs          = require('yargs'),

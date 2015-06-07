@@ -98,5 +98,13 @@
           (insert (json-encode-plist entry)))
         (insert "]"))))
 
+(defun ediary-build ()
+  "Build web pages from ediary file: ediary-export-file"
+  (interactive)
+  (async-shell-command
+   (format "%s -f %s" ediary-build-tool (shell-quote-argument (expand-file-name ediary-export-file)))
+   "*ediary*"
+   "*ediary*"))
+
 (provide 'ediary)
 ;;; ediary.el ends here.
