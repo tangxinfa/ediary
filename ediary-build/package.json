@@ -27,6 +27,7 @@
         "config": "*",
         "dateformat": "*",
         "feed": "*",
-        "tracer": "*"
+        "tracer": "*",
+        "sitemap": "*"
     }
 }

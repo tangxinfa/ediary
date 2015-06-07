@@ -1,17 +1,19 @@
 process.env.NODE_CONFIG_DIR = __dirname + '/config';
 
-var yargs        = require('yargs'),
-    fs           = require('fs'),
-    path         = require('path'),
-    sprintf      = require('sprintf-js').sprintf,
-    vsprintf     = require('sprintf-js').vsprintf,
-    async        = require('async'),
-    handlebars   = require('handlebars'),
-    mkdirp       = require("mkdirp"),
-    config       = require('config'),
-    Feed         = require('feed'),
-    tracer       = require('tracer'),
-    dateformat   = require('dateformat');
+var yargs          = require('yargs'),
+    fs             = require('fs'),
+    path           = require('path'),
+    url            = require('url'),
+    sprintf        = require('sprintf-js').sprintf,
+    vsprintf       = require('sprintf-js').vsprintf,
+    async          = require('async'),
+    handlebars     = require('handlebars'),
+    mkdirp         = require("mkdirp"),
+    config         = require('config'),
+    Feed           = require('feed'),
+    Sitemap        = require('sitemap').Sitemap,
+    tracer         = require('tracer'),
+    dateformat     = require('dateformat');
 
 
 /// Configure logger.
@@ -677,6 +679,31 @@ function generateSiteFeed(callback) {
     });
 }
 
+function generateSiteMap(callback) {
+    logger.debug("generate site map file");
+
+    var urls = [];
+    ediary.allArticles.forEach(function (article) {
+        urls.push(absolutePath(article.url));
+    });
+
+    var sitemap = new Sitemap(urls, url.parse(config.site.link).hostname, config.site.cacheTime || (3*60*60));
+    var file = './sitemap.xml';
+    mkdirp(path.dirname(file), function (err) {
+        if (err) {
+            return callback(err);
+        }
+
+        fs.writeFile(file, sitemap.toXML(), function (err) {
+            if (err) {
+                return callback(err);
+            }
+            logger.info("generated site map file: " + file);
+            callback(null);
+        });
+    });
+}
+
 
 /// Fulfill config defaults.
 for (var category in config.site.categories) {
@@ -713,6 +740,7 @@ async.series([
     generateCategoryArticlePages,
     generateCategoryArticleFeeds,
     generateSiteFeed,
+    generateSiteMap,
 ], function (err) {
     if (err) {
         logger.error(err.toString());
