@@ -1,11 +1,11 @@
     <ul class="tags">
       {{#if tag}}
       {{#each (relateTags tag)}}
-      <li><a class="tag" href="{{tagPageRelativePath this 0}}">{{this}}</a></li>
+      <li><a class="tag" href="{{convertRelativePath (tagPageRelativePath this 0)}}">{{this}}</a></li>
       {{/each}}
       {{else}}
       {{#each (keys ediary.tagArticles)}}
-      <li><a class="tag" href="{{tagPageRelativePath this 0}}">{{this}}</a></li>
+      <li><a class="tag" href="{{convertRelativePath (tagPageRelativePath this 0)}}">{{this}}</a></li>
       {{/each}}
       {{/if}}
     </ul>

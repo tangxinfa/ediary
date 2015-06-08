@@ -29,7 +29,7 @@
           <a class="brand" href="/" style="line-height:100%;">看看俺 - KanKanAn.com</a>
 	      <div class="nav-collapse collapse">
             <ul class="org-ul">
-              <li><a href="{{#if tag }}{{tagFeedRelativePath tag}}{{else}}{{#if category}}{{categoryFeedRelativePath category}}{{else}}/index.xml{{/if}}{{/if}}"><i class="icon-rss icon-white"></i> 订阅</a></li>
+              <li><a href="{{#if tag }}{{convertRelativePath (tagFeedRelativePath tag)}}{{else}}{{#if category}}{{convertRelativePath (categoryFeedRelativePath category)}}{{else}}/index.xml{{/if}}{{/if}}"><i class="icon-rss icon-white"></i> 订阅</a></li>
               {{#each config.site.categories}}
                 {{#if this.featured}}<li{{#if (equal ../../category @key)}} class="active"{{/if}}><a href="{{this.link}}"><i class="{{this.icon.class}} icon-white"></i> {{this.title}}</a></li>{{/if}}
               {{/each}}

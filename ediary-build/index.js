@@ -222,6 +222,9 @@ handlebars.registerHelper('page', function (articles, page, block) {
 handlebars.registerHelper('equal', function (a, b) {
     return a == b;
 });
+
+handlebars.registerHelper('absolutePath', absolutePath);
+handlebars.registerHelper('convertRelativePath', convertRelativePath);
 handlebars.registerHelper('tagPageRelativePath', tagPageRelativePath);
 handlebars.registerHelper('tagFeedRelativePath', tagFeedRelativePath);
 handlebars.registerHelper('categoryPageRelativePath', categoryPageRelativePath);
@@ -474,9 +477,9 @@ function generateTagArticlePages(callback) {
                             "tag": tag,
                             "articles": articles,
                             "ediary": ediary,
-                            "previous": ((page+1)*config.pager.size<articles.length ? tagPageRelativePath(tag, page + 1) : undefined),
+                            "previous": ((page+1)*config.pager.size<articles.length ? convertRelativePath(tagPageRelativePath(tag, page + 1)) : undefined),
                             "page": page,
-                            "next": (page > 0 ? tagPageRelativePath(tag, page - 1) : undefined),
+                            "next": (page > 0 ? convertRelativePath(tagPageRelativePath(tag, page - 1)) : undefined),
                             "config": config
                         };
 
@@ -579,9 +582,9 @@ function generateCategoryArticlePages(callback) {
                             "category": category,
                             "articles": articles,
                             "ediary": ediary,
-                            "previous": (page > 0 ? categoryPageRelativePath(category, page - 1) : undefined),
+                            "previous": (page > 0 ? convertRelativePath(categoryPageRelativePath(category, page - 1)) : undefined),
                             "page": page,
-                            "next": ((page+1)*config.pager.size<articles.length ? categoryPageRelativePath(category, page + 1) : undefined),
+                            "next": ((page+1)*config.pager.size<articles.length ? convertRelativePath(categoryPageRelativePath(category, page + 1)) : undefined),
                             "config": config
                         };
 
@@ -755,7 +758,7 @@ for (var category in config.site.categories) {
         config.site.categories[category].slug = config.site.categories[category].title;
     }
     if (! config.site.categories[category].link) {
-        config.site.categories[category].link = categoryPageRelativePath(category, 0);
+        config.site.categories[category].link = convertRelativePath(categoryPageRelativePath(category, 0));
     }
     var defaultIcon = {
         class: "icon-folder-close"
