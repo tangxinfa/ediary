@@ -83,7 +83,7 @@ function absolutePath(relativePath) {
  * @return converted relative path.
  */
 function convertRelativePath(relativePath) {
-    return (relativePath === config.site.index ? '/index.html' : relativePath);
+    return (relativePath === config.site.home ? '/index.html' : relativePath);
 }
 
 /**
@@ -739,7 +739,7 @@ function generateHomePage(callback) {
             if (err) {
                 return callback(err);
             }
-            logger.info("generated site home page. copy from " + from_file + " to " + to_file);
+            logger.info("generated site home page. copy " + from_file + " to " + to_file);
             return callback(null);
         });
     } else {
