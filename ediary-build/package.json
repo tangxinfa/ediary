@@ -23,11 +23,11 @@
         "sprintf-js": "*",
         "handlebars": "*",
         "async": "*",
-        "mkdirp": "*",
         "config": "*",
         "dateformat": "*",
         "feed": "*",
         "tracer": "*",
-        "sitemap": "*"
+        "sitemap": "*",
+        "fs-extra": "*"
     }
 }

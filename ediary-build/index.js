@@ -3,14 +3,13 @@
 process.env.NODE_CONFIG_DIR = __dirname + '/config';
 
 var yargs          = require('yargs'),
-    fs             = require('fs'),
+    fs             = require('fs-extra'),
     path           = require('path'),
     url            = require('url'),
     sprintf        = require('sprintf-js').sprintf,
     vsprintf       = require('sprintf-js').vsprintf,
     async          = require('async'),
     handlebars     = require('handlebars'),
-    mkdirp         = require("mkdirp"),
     config         = require('config'),
     Feed           = require('feed'),
     Sitemap        = require('sitemap').Sitemap,
@@ -95,7 +94,7 @@ function convertRelativePath(relativePath) {
  * @return relative path of article.
  */
 function articleRelativePath(article) {
-    return convertRelativePath(sprintf('/article/%s.html', pathify(article.slug || article.title)));
+    return sprintf('/article/%s.html', pathify(article.slug || article.title));
 }
 
 /**
@@ -107,7 +106,7 @@ function articleRelativePath(article) {
  * @return relative path of tag's page.
  */
 function tagPageRelativePath(tag, page) {
-    return convertRelativePath(sprintf("/tag/%s/%d.html", pathify((config.site.tags[tag] && config.site.tags[tag].slug) || tag), page));
+    return sprintf("/tag/%s/%d.html", pathify((config.site.tags[tag] && config.site.tags[tag].slug) || tag), page);
 }
 
 /**
@@ -118,7 +117,7 @@ function tagPageRelativePath(tag, page) {
  * @return relative path of tag's feed.
  */
 function tagFeedRelativePath(tag) {
-    return convertRelativePath(sprintf("/tag/%s.xml", pathify((config.site.tags[tag] && config.site.tags[tag].slug) || tag)));
+    return sprintf("/tag/%s.xml", pathify((config.site.tags[tag] && config.site.tags[tag].slug) || tag));
 }
 
 /**
@@ -130,7 +129,7 @@ function tagFeedRelativePath(tag) {
  * @return relative path of category's page.
  */
 function categoryPageRelativePath(category, page) {
-    return convertRelativePath(sprintf("/category/%s/%d.html", pathify((config.site.categories[category] && config.site.categories[category].slug) || category), page));
+    return sprintf("/category/%s/%d.html", pathify((config.site.categories[category] && config.site.categories[category].slug) || category), page);
 }
 
 /**
@@ -141,7 +140,7 @@ function categoryPageRelativePath(category, page) {
  * @return relative path of category's feed.
  */
 function categoryFeedRelativePath(category) {
-    return convertRelativePath(sprintf("/category/%s.xml", pathify((config.site.categories[category] && config.site.categories[category].slug) || category)));
+    return sprintf("/category/%s.xml", pathify((config.site.categories[category] && config.site.categories[category].slug) || category));
 }
 
 /**
@@ -431,7 +430,7 @@ function generateAllArticlePages(callback) {
                 };
 
                 var html = template(data);
-                mkdirp(path.dirname(file), function (err) {
+                fs.mkdirs(path.dirname(file), function (err) {
                     if (err) {
                         return done(err);
                     }
@@ -483,7 +482,7 @@ function generateTagArticlePages(callback) {
 
                         var file = "." + tagPageRelativePath(tag, page);
                         var html = template(data);
-                        mkdirp(path.dirname(file), function (err) {
+                        fs.mkdirs(path.dirname(file), function (err) {
                             if (err) {
                                 return done(err);
                             }
@@ -539,7 +538,7 @@ function generateTagArticleFeeds(callback) {
 
             var file = '.' + tagFeedRelativePath(tag);
             var xml = feed.render('rss-2.0');
-            mkdirp(path.dirname(file), function (err) {
+            fs.mkdirs(path.dirname(file), function (err) {
                 if (err) {
                     return done(err);
                 }
@@ -588,7 +587,7 @@ function generateCategoryArticlePages(callback) {
 
                         var file = "." + categoryPageRelativePath(category, page);
                         var html = template(data);
-                        mkdirp(path.dirname(file), function (err) {
+                        fs.mkdirs(path.dirname(file), function (err) {
                             if (err) {
                                 return done(err);
                             }
@@ -639,7 +638,7 @@ function generateCategoryArticleFeeds(callback) {
 
             var file = '.' + categoryFeedRelativePath(category);
             var xml = feed.render('rss-2.0');
-            mkdirp(path.dirname(file), function (err) {
+            fs.mkdirs(path.dirname(file), function (err) {
                 if (err) {
                     return done(err);
                 }
@@ -687,7 +686,7 @@ function generateSiteFeed(callback) {
 
     var file = './index.xml';
     var xml = feed.render('rss-2.0');
-    mkdirp(path.dirname(file), function (err) {
+    fs.mkdirs(path.dirname(file), function (err) {
         if (err) {
             return callback(err);
         }
@@ -712,7 +711,7 @@ function generateSiteMap(callback) {
 
     var sitemap = new Sitemap(urls, url.parse(config.site.link).hostname, config.site.cacheTime || (3*60*60));
     var file = './sitemap.xml';
-    mkdirp(path.dirname(file), function (err) {
+    fs.mkdirs(path.dirname(file), function (err) {
         if (err) {
             return callback(err);
         }
@@ -725,6 +724,25 @@ function generateSiteMap(callback) {
             callback(null);
         });
     });
+}
+
+function generateHomePage(callback) {
+    logger.debug("generate site home page");
+
+    if (config.site.home) {
+        var from_file = "." + config.site.home;
+        var to_file = "./index.html";
+        fs.copy(from_file, to_file, function (err) {
+            if (err) {
+                return callback(err);
+            }
+            logger.info("generated site home page. copy from " + from_file + " to " + to_file);
+            return callback(null);
+        });
+    } else {
+        logger.warn("site home page not configed");
+        return callback(null);
+    }
 }
 
 
@@ -764,6 +782,7 @@ async.series([
     generateCategoryArticleFeeds,
     generateSiteFeed,
     generateSiteMap,
+    generateHomePage,
 ], function (err) {
     if (err) {
         logger.error(err.toString());
