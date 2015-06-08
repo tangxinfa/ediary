@@ -77,6 +77,28 @@ function absolutePath(relativePath) {
 }
 
 /**
+ * Convert relative path.
+ *
+ * @param relativePath relative path to convert.
+ *
+ * @return converted relative path.
+ */
+function convertRelativePath(relativePath) {
+    return (relativePath === config.site.index ? '/index.html' : relativePath);
+}
+
+/**
+ * Get relative path of article.
+ *
+ * @param article article to get relative path.
+ *
+ * @return relative path of article.
+ */
+function articleRelativePath(article) {
+    return convertRelativePath(sprintf('/article/%s.html', pathify(article.slug || article.title)));
+}
+
+/**
  * Get relative path of tag's page.
  *
  * @param tag tag to get relative path.
@@ -85,7 +107,7 @@ function absolutePath(relativePath) {
  * @return relative path of tag's page.
  */
 function tagPageRelativePath(tag, page) {
-    return sprintf("/tag/%s/%d.html", pathify((config.site.tags[tag] && config.site.tags[tag].slug) || tag), page);
+    return convertRelativePath(sprintf("/tag/%s/%d.html", pathify((config.site.tags[tag] && config.site.tags[tag].slug) || tag), page));
 }
 
 /**
@@ -96,7 +118,7 @@ function tagPageRelativePath(tag, page) {
  * @return relative path of tag's feed.
  */
 function tagFeedRelativePath(tag) {
-    return sprintf("/tag/%s.xml", pathify((config.site.tags[tag] && config.site.tags[tag].slug) || tag));
+    return convertRelativePath(sprintf("/tag/%s.xml", pathify((config.site.tags[tag] && config.site.tags[tag].slug) || tag)));
 }
 
 /**
@@ -108,7 +130,7 @@ function tagFeedRelativePath(tag) {
  * @return relative path of category's page.
  */
 function categoryPageRelativePath(category, page) {
-    return sprintf("/category/%s/%d.html", pathify((config.site.categories[category] && config.site.categories[category].slug) || category), page);
+    return convertRelativePath(sprintf("/category/%s/%d.html", pathify((config.site.categories[category] && config.site.categories[category].slug) || category), page));
 }
 
 /**
@@ -119,7 +141,7 @@ function categoryPageRelativePath(category, page) {
  * @return relative path of category's feed.
  */
 function categoryFeedRelativePath(category) {
-    return sprintf("/category/%s.xml", pathify((config.site.categories[category] && config.site.categories[category].slug) || category));
+    return convertRelativePath(sprintf("/category/%s.xml", pathify((config.site.categories[category] && config.site.categories[category].slug) || category)));
 }
 
 /**
@@ -269,7 +291,7 @@ function parseEdiaryFile(filename) {
         return e2.timestamp - e1.timestamp;
     });
     ediary.forEach(function (entry) {
-        entry.url = sprintf('/article/%s.html', pathify(entry.title));
+        entry.url = articleRelativePath(entry);
         if (! Array.isArray(entry.tags)) {
             entry.tags = [];
         }
