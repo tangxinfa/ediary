@@ -30,7 +30,7 @@ Support formats: [org](http://orgmode.org)
 
 - Export to ediary file
 
-A json file adherence to specification: (Ediary File Specification)
+A json file adherence to specification: [Ediary File Specification][]
 
 - Generate web pages
 

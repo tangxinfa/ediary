@@ -28,6 +28,7 @@
         "feed": "*",
         "tracer": "*",
         "sitemap": "*",
-        "fs-extra": "*"
+        "fs-extra": "*",
+        "i18n": "*"
     }
 }

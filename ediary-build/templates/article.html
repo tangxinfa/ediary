@@ -20,7 +20,7 @@
           {{/each}}
           {{/if}}
           <span class="muted">
-            <i class="icon-time icon-white"></i> <time datetime="{{dateformat current.timestamp "isoDateTime"}}">{{dateformat current.timestamp "yyyy年m月d日h时"}}</time>
+            <i class="icon-time icon-white"></i> <time datetime="{{dateformat current.timestamp "isoDateTime"}}">{{dateformat current.timestamp (__ "TimestampFormat")}}</time>
           </span>
         </footer>
       </div>

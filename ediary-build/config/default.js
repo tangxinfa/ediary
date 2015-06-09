@@ -5,6 +5,7 @@ module.exports = {
         link: '',
         image: '',
         copyright: '',
+        lang: 'en',
         home: '',  // relative path of a page will publish as home page(/index.html)
         tags: {
             //

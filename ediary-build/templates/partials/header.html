@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh_CN">
+<html lang="{{config.site.lang}}">
   <head>
     <meta charset="utf-8"/>
     <title>{{#if title}}{{title}} | {{/if}}{{config.site.title}}</title>
@@ -26,10 +26,10 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="/" style="line-height:100%;">看看俺 - KanKanAn.com</a>
+          <a class="brand" href="/" style="line-height:100%;">{{config.site.title}}</a>
 	      <div class="nav-collapse collapse">
             <ul class="org-ul">
-              <li><a href="{{#if tag }}{{convertRelativePath (tagFeedRelativePath tag)}}{{else}}{{#if category}}{{convertRelativePath (categoryFeedRelativePath category)}}{{else}}/index.xml{{/if}}{{/if}}"><i class="icon-rss icon-white"></i> 订阅</a></li>
+              <li><a href="{{#if tag }}{{convertRelativePath (tagFeedRelativePath tag)}}{{else}}{{#if category}}{{convertRelativePath (categoryFeedRelativePath category)}}{{else}}/index.xml{{/if}}{{/if}}"><i class="icon-rss icon-white"></i> {{__ "Subscribe"}}</a></li>
               {{#each config.site.categories}}
                 {{#if this.featured}}<li{{#if (equal ../../category @key)}} class="active"{{/if}}><a href="{{this.link}}"><i class="{{this.icon.class}} icon-white"></i> {{this.title}}</a></li>{{/if}}
               {{/each}}

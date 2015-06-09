@@ -14,7 +14,8 @@ var yargs          = require('yargs'),
     Feed           = require('feed'),
     Sitemap        = require('sitemap').Sitemap,
     tracer         = require('tracer'),
-    dateformat     = require('dateformat');
+    dateformat     = require('dateformat'),
+    i18n           = require('i18n');
 
 
 /// Configure logger.
@@ -192,7 +193,21 @@ var argv = yargs
     .argv;
 
 
+i18n.configure({
+    locales: ['en', 'zh-cn'],
+    directory: __dirname + '/locales',
+    defaultLocale: 'en',
+    updateFiles: true
+});
+i18n.setLocale(config.site.lang);
+
 /// Register template helpers.
+handlebars.registerHelper('__', function () {
+    return i18n.__.apply(i18n, arguments);
+});
+handlebars.registerHelper('__n', function () {
+    return i18n.__n.apply(i18n, arguments);
+});
 handlebars.registerHelper('sprintf', function() {
     if (arguments.length === 1) {
         return arguments[0];

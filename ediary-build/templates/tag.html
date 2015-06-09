@@ -12,7 +12,7 @@
           <article>
             <header class="article-header">
               <span class="muted">
-                <i class="icon-time icon-white"></i> <time datetime="{{dateformat (field ../ediary.allArticles this "timestamp") "isoDateTime"}}">{{dateformat (field ../ediary.allArticles this "timestamp") "yyyy年m月d日H时"}}</time>
+                <i class="icon-time icon-white"></i> <time datetime="{{dateformat (field ../ediary.allArticles this "timestamp") "isoDateTime"}}">{{dateformat (field ../ediary.allArticles this "timestamp") (__ "TimestampFormat")}}</time>
               </span>
 	          <h2><a href="{{field ../ediary.allArticles this "url"}}">{{field ../ediary.allArticles this "title"}}</a></h2>
             </header>
@@ -25,15 +25,15 @@
           <div class="page-footer">
             <nav>
               <ul class="pager">
-                <li class="previous {{#if previous}}{{else}}disabled{{/if}}"><a href="{{previous}}"><span aria-hidden="true">&larr;</span> Newer</a></li>
-                <li class="next {{#if next}}{{else}}disabled{{/if}}"><a href="{{next}}">Older <span aria-hidden="true">&rarr;</span></a></li>
+                <li class="previous {{#if previous}}{{else}}disabled{{/if}}"><a href="{{previous}}"><span aria-hidden="true">&larr;</span> {{__ "Newer"}}</a></li>
+                <li class="next {{#if next}}{{else}}disabled{{/if}}"><a href="{{next}}">{{__ "Older"}} <span aria-hidden="true">&rarr;</span></a></li>
               </ul>
             </nav>
           </div>
         </div>
         <div id="sidebar" class="span3">
           <div class="page-header">
-            <i class="icon-tags icon-white"></i> 相关标签
+            <i class="icon-tags icon-white"></i> {{__ "Relate Tags"}}
           </div>
           {{> tags}}
         </div>
