@@ -492,9 +492,9 @@ function generateTagArticlePages(callback) {
                             "tag": tag,
                             "articles": articles,
                             "ediary": ediary,
-                            "previous": ((page+1)*config.pager.size<articles.length ? convertRelativePath(tagPageRelativePath(tag, page + 1)) : undefined),
+                            "previous": (page > 0 ? convertRelativePath(tagPageRelativePath(tag, page - 1)) : undefined),
                             "page": page,
-                            "next": (page > 0 ? convertRelativePath(tagPageRelativePath(tag, page - 1)) : undefined),
+                            "next": ((page+1)*config.pager.size<articles.length ? convertRelativePath(tagPageRelativePath(tag, page + 1)) : undefined),
                             "config": config
                         };
 
