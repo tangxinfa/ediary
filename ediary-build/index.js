@@ -42,8 +42,8 @@ function pathify (str) {
                 result += '-';  /// Put a "-" separator between ascii and none-ascii characters.
             }
             ascii = true;
-            if ((str[i] >= 'a' && str[i] <= 'z') || str[i] === '-' || str[i] === '_') {
-                result += str[i]; /// Characters lowercase underline and midline keep unchanged.
+            if ((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= '0' && str[i] <= '9') || str[i] === '-' || str[i] === '_' || str[i] === '.') {
+                result += str[i]; /// [a-z0-9\-_\.] characters keep unchanged.
             } else if (str[i] >= 'A' && str[i] <= 'Z') {
                 result += str[i].toLowerCase(); /// Convert uppercase characters to lowercase.
             } else {
