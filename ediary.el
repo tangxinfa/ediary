@@ -29,6 +29,7 @@
 
 ;; `ediary-export' Export to ediary file.
 ;; `ediary-build' Build web pages from ediary file.
+;; `ediary-publish' Export and build web pages from ediary file.
 
 ;;; Code:
 
@@ -41,8 +42,12 @@
   "org-mode export options."
   :group 'ediary)
 
-(defcustom ediary-export-file "~/.emacs.d/ediary.json"
-  "ediary file exported to."
+(defcustom ediary-export-file (concat (el-get-package-directory 'ediary) "source/ediary.json")
+  "ediary file exported."
+  :group 'ediary)
+
+(defcustom ediary-source-file (concat (el-get-package-directory 'ediary) "source/ediary.org")
+  "ediary file composed."
   :group 'ediary)
 
 ;;;;;
@@ -84,7 +89,7 @@
           finally return entries)))
 
 (defun ediary-export ()
-  "Export into ediary file: ediary-export-file"
+  "Export ediary-source-file into file: ediary-export-file"
   (interactive)
   (let ((entries (ediary-entries))
         (json-encoding-pretty-print t)
@@ -106,6 +111,28 @@
    (format "%s -f %s" ediary-build-tool (shell-quote-argument (expand-file-name ediary-export-file)))
    "*ediary*"
    "*ediary*"))
+
+(defun ediary-publish ()
+  "Export and build web pages from ediary source file: ediary-source-file"
+  (interactive)
+  (find-file ediary-source-file)
+  (let ((default-directory (expand-file-name (concat (file-name-directory ediary-source-file) "../")))
+        (org-export-with-sub-superscripts nil))
+    (ediary-export)
+    (ediary-build)))
+
+(defun ediary-source (local)
+  "Open composed ediary source file: ediary-source-file"
+  (interactive "P")
+  (unless local
+    (message "update ediary source ...")
+    (let ((default-directory "~"))
+      (let* ((command-output (shell-command-to-string (format "cd %s; git pull" (file-name-directory ediary-source-file)))))
+        (if (string-match "error:" command-output)
+            (error "%s" command-output)
+          (message "%s" command-output)))))
+  (find-file-existing ediary-source-file)
+  (goto-char (point-max)))
 
 (provide 'ediary)
 ;;; ediary.el ends here.
