@@ -124,7 +124,7 @@
 (defun ediary-source (local)
   "Open composed ediary source file: ediary-source-file"
   (interactive "P")
-  (unless local
+  (if local
     (message "update ediary source ...")
     (let ((default-directory "~"))
       (let* ((command-output (shell-command-to-string (format "cd %s; git pull" (file-name-directory ediary-source-file)))))
