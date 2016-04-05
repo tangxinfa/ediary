@@ -121,10 +121,10 @@
     (ediary-export)
     (ediary-build)))
 
-(defun ediary-source (local)
+(defun ediary-source (&optional local)
   "Open composed ediary source file: ediary-source-file"
   (interactive "P")
-  (if local
+  (when local
     (message "update ediary source ...")
     (let ((default-directory "~"))
       (let* ((command-output (shell-command-to-string (format "cd %s; git pull" (file-name-directory ediary-source-file)))))
