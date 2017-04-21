@@ -555,7 +555,7 @@ function generateTagArticleFeeds(callback) {
             });
 
             var file = '.' + tagFeedRelativePath(tag);
-            var xml = feed.render('rss-2.0');
+            var xml = feed.rss2();
             fs.mkdirs(path.dirname(file), function (err) {
                 if (err) {
                     return done(err);
@@ -655,7 +655,7 @@ function generateCategoryArticleFeeds(callback) {
             });
 
             var file = '.' + categoryFeedRelativePath(category);
-            var xml = feed.render('rss-2.0');
+            var xml = feed.rss2();
             fs.mkdirs(path.dirname(file), function (err) {
                 if (err) {
                     return done(err);
@@ -703,7 +703,7 @@ function generateSiteFeed(callback) {
     });
 
     var file = './index.xml';
-    var xml = feed.render('rss-2.0');
+    var xml = feed.rss2();
     fs.mkdirs(path.dirname(file), function (err) {
         if (err) {
             return callback(err);
