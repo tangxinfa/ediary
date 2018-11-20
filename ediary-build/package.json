@@ -19,16 +19,16 @@
     },
     "homepage": "https://github.com/tangxinfa/ediary#readme",
     "dependencies": {
-        "yargs": "*",
-        "sprintf-js": "*",
-        "handlebars": "*",
-        "async": "*",
-        "config": "*",
-        "dateformat": "*",
-        "feed": "*",
-        "tracer": "*",
-        "sitemap": "*",
-        "fs-extra": "*",
-        "i18n": "*"
+        "yargs": "10.x",
+        "sprintf-js": "1.x",
+        "handlebars": "4.x",
+        "async": "2.x",
+        "config": "1.x",
+        "dateformat": "3.x",
+        "feed": "1.x",
+        "tracer": "0.x",
+        "sitemap": "1.x",
+        "fs-extra": "5.x",
+        "i18n": "0.x"
     }
 }
