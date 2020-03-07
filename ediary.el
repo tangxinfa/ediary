@@ -94,23 +94,26 @@
   (let ((entries (ediary-entries))
         (json-encoding-pretty-print t)
         (next-entry nil))
-      (with-temp-file ediary-export-file
-        (insert "[")
-        (dolist (entry entries)
-          (if next-entry
-              (progn
-                (insert ",\n")))
-          (setq next-entry t)
-          (insert (json-encode-plist entry)))
-        (insert "]"))))
+    (with-temp-file ediary-export-file
+      (insert "[")
+      (dolist (entry entries)
+        (if next-entry
+            (progn
+              (insert ",\n")))
+        (setq next-entry t)
+        (insert (json-encode-plist entry)))
+      (insert "]"))))
 
 (defun ediary-build ()
   "Build web pages from ediary file: ediary-export-file"
   (interactive)
-  (async-shell-command
-   (format "%s -f %s" ediary-build-tool (shell-quote-argument (expand-file-name ediary-export-file)))
+  (start-process-shell-command
+   "ediary-build"
    "*ediary*"
-   "*ediary*"))
+   (format
+    "%s -f %s"
+    ediary-build-tool
+    (shell-quote-argument (expand-file-name ediary-export-file)))))
 
 (defun ediary-publish ()
   "Export and build web pages from ediary source file: ediary-source-file"
